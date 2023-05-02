@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
+from api.api_v1.api import router as api_router
+# from mangum import Mangum
 
 from passlib.hash import bcrypt
 import pymysql as pymysql
@@ -16,18 +18,22 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
+# CORS 예외 URL 설정
+# React 기본 포트인 3000 등록
 origins = [
     "http://localhost:3000",
 ]
 
+# 미들웨어 설정
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_credentials=True, # request에서 cookie 허용
+    allow_methods=["*"],    # 전체 method 허용
+    allow_headers=["*"],    # 전체 header 허용
 )
 
+<<<<<<< Updated upstream
 def get_db() :
     db = SessionLocal()
     try :
@@ -57,7 +63,15 @@ async def IdCheck(id) :
 async def root():
     return {"message": "Hello World"}
 
+=======
+@app.get('/')
+async def root():
+    return {"message": 'FastAPI 서버'}
+>>>>>>> Stashed changes
 
 @app.get('/hello')
-def Hello():
-    return {"message": '서버 메시지'}
+async def hello():
+    return {'message': 'Hello World'}
+
+app.include_router(api_router, prefix="/api/v1")
+# handler = Mangum(app)
