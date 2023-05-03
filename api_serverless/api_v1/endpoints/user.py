@@ -1,9 +1,8 @@
-from fastapi import APIRouter, Depends, Path, HTTPException
-from sqlalchemy.orm import Session
+from fastapi import APIRouter
 from pydantic import BaseModel
 from database import EngineConn
 
-from models.user_model import User
+from user_model import User
 
 router = APIRouter(prefix="/api/user")
 engine = EngineConn()
