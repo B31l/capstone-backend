@@ -1,13 +1,21 @@
 from logging.config import fileConfig
-
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
-
 from alembic import context
+import models
+import json
+import os
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+SECRET_FILE = os.path.join(BASE_DIR, '../secrets.json')
+secrets = json.loads(open(SECRET_FILE).read())
+DB = secrets["DB"]
+DB_URL = f"mysql+pymysql://{DB['user']}:{DB['password']}@{DB['host']}:{DB['port']}/{DB['database']}?charset=utf8"
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
+if not config.get_main_option('sqlalchemy.url'):
+    config.set_main_option('sqlalchemy.url', DB_URL)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
@@ -18,7 +26,7 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = None
+target_metadata = models.Base.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from database import get_db
-from models.note_model import Note
+from models import Note
 from schemas import note_schema
 
 router = APIRouter(prefix="/api/note")

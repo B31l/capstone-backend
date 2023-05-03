@@ -1,7 +1,8 @@
 from sqlalchemy import Column, String, Integer, Text, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
-from database import Base
+from sqlalchemy.ext.declarative import declarative_base
 
+Base = declarative_base()
 # 사용자 모델
 class Note(Base) :
     __tablename__ = "note"

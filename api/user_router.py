@@ -1,11 +1,10 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from passlib.hash import bcrypt
 from database import get_db
-from models.user_model import User
+from models import User
 from schemas import user_schema
 # from services import findUserService
-
+from passlib.hash import bcrypt
 router = APIRouter(prefix="/api/user")
 
 # 유저 리스트 조회
@@ -26,6 +25,7 @@ async def get_user_list(db: Session = Depends(get_db)):
 #     hash_password = bcrypt.hash(user.password)
 #     db_user = User(
 #         id=user.id,
+#         email=user.email,
 #         password=hash_password,
 #         name=user.name
 #         # goals=user.goals,
