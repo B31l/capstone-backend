@@ -5,23 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b77c92b6-5ba3-4919-8b88-52568313a302" name="변경" comment="">
-      <change afterPath="$PROJECT_DIR$/api_serverless/api_v1/endpoints/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/user_model.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/schemas/user_schema.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/secrets.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/api/note_router.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/note_model.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/schemas/note_schema.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Database/UserModel.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Database/databases.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Service/findUserService.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/findUserService.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/user_router.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/api_v1/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/api_serverless/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/api_v1/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/api_serverless/api_v1/api.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/api_v1/endpoints/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/api_serverless/api_v1/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/api_v1/endpoints/note.py" beforeDir="false" afterPath="$PROJECT_DIR$/api_serverless/api_v1/endpoints/note.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/api_v1/endpoints/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/api_serverless/api_v1/endpoints/user.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/database.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/user_router.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/user_router.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/smodels.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/user_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/user_model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/schemas/user_schema.py" beforeDir="false" afterPath="$PROJECT_DIR$/schemas/user_schema.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,11 +37,16 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/venvs/capstone/Scripts&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Workspace/capstone/schemas&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
 }</component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Workspace\capstone\schemas" />
+      <recent name="D:\Workspace\capstone\models" />
+      <recent name="D:\Workspace\capstone\api" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Workspace\capstone" />
     </key>
@@ -88,5 +84,15 @@
       <updated>1682572616186</updated>
     </task>
     <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/main.py</url>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

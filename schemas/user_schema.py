@@ -2,7 +2,8 @@ from pydantic import BaseModel
 
 
 class User(BaseModel) :
-    id : str
+    id : int
+    email: str
     password : str
     name : str | None = None
     # goals : str | None = None

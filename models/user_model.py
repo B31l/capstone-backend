@@ -1,11 +1,12 @@
-from sqlalchemy import Column, String
+from sqlalchemy import Column, String, Integer
 from database import Base
 
 # 사용자 모델
 class User(Base) :
     __tablename__ = "user"
 
-    id = Column(String(100), nullable=False, primary_key=True)
+    id = Column(Integer, nullable=False, primary_key=True)
+    email = Column(String(100), nullable=False)
     password = Column(String(100),nullable=False)
     name = Column(String(100),nullable=True)
     # goals = Column(String(100),nullable=True)

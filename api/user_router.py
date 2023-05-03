@@ -21,20 +21,20 @@ async def get_user_list(db: Session = Depends(get_db)):
 #     return _user
 
 # 회원가입
-@router.post("/signup", response_model=list[user_schema.User])
-async def set_user(user: User, db: Session=Depends(get_db)) :
-    hash_password = bcrypt.hash(user.password)
-    db_user = User(
-        id=user.id,
-        password=hash_password,
-        name=user.name
-        # goals=user.goals,
-        # groups=user.groups,
-        # profile_image=user.profile_image,
-        # notes=user.notes,
-        # chats=user.chats
-    )
-    db.add(db_user)
-    db.commit()
-    db.refresh(db_user)
-    return db_user
+# @router.post("/{id}", response_model=list[user_schema.User])
+# async def set_user(user: User, db: Session=Depends(get_db)) :
+#     hash_password = bcrypt.hash(user.password)
+#     db_user = User(
+#         id=user.id,
+#         password=hash_password,
+#         name=user.name
+#         # goals=user.goals,
+#         # groups=user.groups,
+#         # profile_image=user.profile_image,
+#         # notes=user.notes,
+#         # chats=user.chats
+#     )
+#     db.add(db_user)
+#     db.commit()
+#     db.refresh(db_user)
+#     return db_user
