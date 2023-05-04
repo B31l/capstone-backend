@@ -61,7 +61,7 @@ async def login_kakao(request : Request) :
     kakao_url = "https://kauth.kakao.com/oauth/authorize?"
     kakao_params = {
         "response_type" : "code",
-        "client_id" : "--",
+        "client_id" : "50e0a36d16e7640df3908f7f6406099c",
         "redirect_uri" : "http://localhost:8000/kakao/auth"
     }
     kakao_login_url = kakao_url + urlencode(kakao_params)
@@ -112,7 +112,7 @@ async def callback_kakao(request: Request, code: str, db : Session = Depends(get
 async def login_naver(request: Request) :
     naver_url = "https://nid.naver.com/oauth2.0/authorize?"
     naver_params = {
-        "client_id": "-",
+        "client_id": "FTBw3qsfKuVHIZL3qi8r",
         "response_type": "code",
         "redirect_uri": "http://localhost:8000/naver/auth",
         "state": str
@@ -125,8 +125,8 @@ async def callback_naver(request: Request, code: str, state: str, db : Session =
     naver_token_url = "https://nid.naver.com/oauth2.0/token"
     naver_data = {
         "grant_type": "authorization_code",
-        "client_id": "--",
-        "client_secret": "--",
+        "client_id": "FTBw3qsfKuVHIZL3qi8r",
+        "client_secret": "j_nUrnYOPz",
         "code": code,
         "state": state,
     }
