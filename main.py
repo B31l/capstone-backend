@@ -1,20 +1,10 @@
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
-
 from api import user_router, note_router
-
-
-
-# 네이버, 카카오 로그인 시 필요
-from fastapi import Depends, Request
-from sqlalchemy.orm import Session
-from models import User
-from urllib.parse import urlencode
-from fastapi.responses import RedirectResponse
-import httpx
-from database import get_db
+from api.auth import kakao, naver
 
 app = FastAPI()
+
 # CORS 예외 URL 설정
 # React 기본 포트인 3000 등록
 origins = [
@@ -29,8 +19,11 @@ app.add_middleware(
     allow_headers=["*"],    # 전체 header 허용
 )
 # 라우터 설정
+app.include_router(kakao.router)
+app.include_router(naver.router)
 app.include_router(user_router.router)
 app.include_router(note_router.router)
+
 
 @app.get('/')
 async def hello():
@@ -50,8 +43,3 @@ async def hello():
 # from api_serverless.api_v1.api import router as api_router
 # from mangum import Mangum
 # handler = Mangum(app)
-
-
-
-################ 네이버 카카오 로그인 
-
