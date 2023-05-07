@@ -18,7 +18,7 @@ router = APIRouter(prefix="/naver")
 async def login_naver(request: Request) :
     naver_url = "https://nid.naver.com/oauth2.0/authorize?"
     naver_params = {
-        "client_id": "FTBw3qsfKuVHIZL3qi8r",
+        "client_id": KEY.naver.id,
         "response_type": "code",
         "redirect_uri": "http://localhost:8000/naver/auth",
         "state": str
