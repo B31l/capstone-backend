@@ -9,16 +9,16 @@ import os
 import json
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-SECRET_FILE = os.path.join(BASE_DIR, 'secrets.json')
+SECRET_FILE = os.path.join(BASE_DIR, '../../secrets.json')
 secrets = json.loads(open(SECRET_FILE).read())
 KEY = secrets["KEY"]
 router = APIRouter(prefix="/naver")
 
-@router.get("/naver")
+@router.get("/")
 async def login_naver(request: Request) :
     naver_url = "https://nid.naver.com/oauth2.0/authorize?"
     naver_params = {
-        "client_id": KEY.naver.id,
+        "client_id": KEY["naver"]["id"],
         "response_type": "code",
         "redirect_uri": "http://localhost:8000/naver/auth",
         "state": str
@@ -26,13 +26,13 @@ async def login_naver(request: Request) :
     naver_login_url = naver_url + urlencode(naver_params)
     return RedirectResponse(naver_login_url)
 
-@router.get("/naver/auth")
-async def callback_naver(request: Request, code: str, state: str, db : Session = Depends(get_db)) :
+@router.get("/auth")
+async def callback_naver(request: Request, code: str, state: str, db: Session=Depends(get_db)) :
     naver_token_url = "https://nid.naver.com/oauth2.0/token"
     data = {
         "grant_type": "authorization_code",
-        "client_id": KEY.naver.id,
-        "client_secret": KEY.naver.pw,
+        "client_id": KEY["naver"]["id"],
+        "client_secret": KEY["naver"]["pw"],
         "code": code,
         "state": state,
     }
