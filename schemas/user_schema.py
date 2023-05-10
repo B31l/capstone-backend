@@ -6,6 +6,7 @@ class User(BaseModel) :
     email: str
     password : str
     name : str | None = None
+    social : str | None = None
     # goals : str | None = None
     # groups : str | None = None
     # profile_image : str | None = None

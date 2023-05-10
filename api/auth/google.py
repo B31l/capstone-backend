@@ -55,12 +55,12 @@ async def callback_google(request: Request, code: str, state: str, db : Session 
             if response.status_code == 200:
                 response_json = response.json()
                 try:
-                    db_user = User(id=response_json["id"], password="",
-                                             nickname=response_json["name"], goals="", groups="",
-                                             profile_image="", notes="", chats="")
-                    db.add(db_user)
-                    db.commit()
-                    db.refresh(db_user)
+                    duplicate_check = db.query(User).filter((User.email == response_json["email"]) & (User.social == "google")).first()
+                    if not duplicate_check : 
+                        db_user = User(email=response_json["email"], password="", name=response_json["name"], social="google")
+                        db.add(db_user)
+                        db.commit()
+                        db.refresh(db_user)
                 except:
                     RedirectResponse("http://localhost:8000/google")
                 return response_json

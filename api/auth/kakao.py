@@ -51,10 +51,12 @@ async def callback_kakao(request: Request, code: str, db: Session=Depends(get_db
         if response.status_code == 200:
             response_json = response.json()
             try :
-                db_user = User(id=response_json["id"], password="", nickname=response_json["properties"]["nickname"], goals="", groups="", profile_image="", notes="", chats="")
-                db.add(db_user)
-                db.commit()
-                db.refresh(db_user)
+                duplicate_check = db.query(User).filter((User.email == response_json["kakao_account"]["email"]) & (User.social == "kakao")).first()
+                if not duplicate_check : 
+                    db_user = User(email=response_json["kakao_account"]["email"], password="", name=response_json["properties"]["nickname"], social="kakao")
+                    db.add(db_user)
+                    db.commit()
+                    db.refresh(db_user)
             except :
                 RedirectResponse("http://localhost:8000/kakao")
             return response_json

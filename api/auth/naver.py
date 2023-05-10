@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from urllib.parse import urlencode
 from database import get_db
 from models import User
+
 import httpx
 import os
 import json
@@ -56,11 +57,12 @@ async def callback_naver(request: Request, code: str, state: str, db: Session=De
         if response.status_code == 200:
             response_json = response.json()
             try :
-                db_user = User(
-                    id=response_json["response"]["id"], password="", nickname=response_json["response"]["name"], goals="", groups="", profile_image="", notes="", chats="")
-                db.add(db_user)
-                db.commit()
-                db.refresh(db_user)
+                duplicate_check = db.query(User).filter((User.email == response_json["response"]["email"]) & (User.social == "naver")).first()
+                if not duplicate_check : 
+                    db_user = User(email=response_json["response"]["email"], password="", name=response_json["response"]["name"], social="naver")
+                    db.add(db_user)
+                    db.commit()
+                    db.refresh(db_user)
             except :
                 RedirectResponse("http://localhost:8000/naver")
             return response_json
