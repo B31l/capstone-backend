@@ -15,7 +15,7 @@ KEY = secrets["KEY"]
 router = APIRouter(prefix="/kakao")
 
 @router.get("/")
-async def login_kakao(request : Request) :
+async def login_kakao(request: Request):
     kakao_url = "https://kauth.kakao.com/oauth/authorize?"
     kakao_params = {
         "response_type" : "code",
@@ -26,7 +26,7 @@ async def login_kakao(request : Request) :
     return RedirectResponse(kakao_login_url)
 
 @router.get("/auth")
-async def callback_kakao(request: Request, code: str, db: Session=Depends(get_db)) :
+async def callback_kakao(request: Request, code: str, db: Session=Depends(get_db)):
     kakao_token_url = "https://kauth.kakao.com/oauth/token"
     kakao_data = {
         "grant_type": "authorization_code",
