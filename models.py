@@ -1,7 +1,7 @@
 from sqlalchemy import Column, String, Integer, Text, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
-
+from database import engine
 Base = declarative_base()
 
 
@@ -22,15 +22,18 @@ class Note(Base) :
 class User(Base) :
     __tablename__ = "user"
 
-    id = Column(Integer, nullable=False, primary_key=True)
+    id = Column(Integer, nullable=False, primary_key=True, autoincrement=True)
     email = Column(String(100), nullable=False)
     password = Column(String(100),nullable=False)
     name = Column(String(100),nullable=True)
+    social = Column(String(100), nullable=True)
     # goals = Column(String(100),nullable=True)
     # groups = Column(String(100),nullable=True)
     # profile_image = Column(String(100),nullable=True)
     # notes = Column(String(100),nullable=True)
     # chats = Column(String(100),nullable=True)
+
+
 
     # def __init__(self, id, password, name,
     #              # goals, groups, profile_image, notes, chats
@@ -44,3 +47,4 @@ class User(Base) :
         # self.notes = notes
         # self.chats = chats
 
+Base.metadata.create_all(bind=engine)
