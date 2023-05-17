@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 from api import user_router, note_router
 from api.auth import kakao, naver, google
+from services import UserService
 
 app = FastAPI()
 
@@ -24,6 +25,7 @@ app.include_router(naver.router)
 app.include_router(user_router.router)
 app.include_router(note_router.router)
 app.include_router(google.router)
+app.include_router(UserService.router)
 
 @app.get('/')
 async def hello():

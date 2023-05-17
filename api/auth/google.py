@@ -58,7 +58,7 @@ async def callback_google(request: Request, code: str, state: str, db : Session 
                 try:
                     duplicate_check = db.query(User).filter((User.email == response_json["email"]) & (User.social == "google")).first()
                     if not duplicate_check : 
-                        db_user = User(email=response_json["email"], password="", name=response_json["name"], social="google")
+                        db_user = User(email=response_json["email"], password="", name=response_json["name"], social="google", token="", profile_image=response_json["picture"])
                         db.add(db_user)
                         db.commit()
                         db.refresh(db_user)
@@ -69,3 +69,6 @@ async def callback_google(request: Request, code: str, state: str, db : Session 
                 return {"error": "failed to get user info"}
         else:
             return {"error": "failed to get access token"}
+        
+
+# 구글 로긍아웃 구현 필요 
