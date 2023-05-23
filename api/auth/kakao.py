@@ -53,15 +53,10 @@ async def callback_kakao(request: Request, code: str, db: Session=Depends(get_db
             try :
                 user_check = db.query(User).filter((User.email == response_json["kakao_account"]["email"]) & (User.social == "kakao")).first()
                 if not user_check : 
-                    db_user = User(email=response_json["kakao_account"]["email"], password="", name=response_json["properties"]["nickname"], social="kakao",token=access_token)
+                    db_user = User(email=response_json["kakao_account"]["email"], password="", name=response_json["properties"]["nickname"], social="kakao")
                     db.add(db_user)
                     db.commit()
                     db.refresh(db_user)
-                # 토큰 db 갱신 
-                if User.token != access_token : 
-                    user_check.token = access_token
-                    db.commit()
-                    db.refresh(user_check)
             except :
                 RedirectResponse("http://localhost:8000/kakao")
             user_res = db.query(User).filter((User.email == response_json["kakao_account"]["email"]) & (User.social == "kakao")).first()
@@ -73,7 +68,7 @@ async def callback_kakao(request: Request, code: str, db: Session=Depends(get_db
 async def logout_kakao() :
     kakao_url = "https://kauth.kakao.com/oauth/logout?"
     kakao_params = {
-        "client_id" : "50e0a36d16e7640df3908f7f6406099c",
+        "client_id" : KEY["kakao"]["id"],
         "logout_redirect_uri" : "http://localhost:8000/kakao"
     }
     kakao_login_url = kakao_url + urlencode(kakao_params)

@@ -27,7 +27,7 @@ async def login_naver(request: Request) :
     naver_login_url = naver_url + urlencode(naver_params)
     return RedirectResponse(naver_login_url)
 
-# 토근 저장
+# 토큰 저장
 def get_token(request: Request, code: str, state: str, db: Session=Depends(get_db)) :
     naver_token_url = "https://nid.naver.com/oauth2.0/token"
     data = {
@@ -65,29 +65,27 @@ async def callback_naver(request: Request, code: str, state: str, db: Session=De
             try :
                 user_check = db.query(User).filter((User.email == response_json["response"]["email"]) & (User.social == "naver")).first()
                 if not user_check : 
-                    db_user = User(email=response_json["response"]["email"], password="", name=response_json["response"]["name"], social="naver", token = access_token)
+                    db_user = User(email=response_json["response"]["email"], password="", name=response_json["response"]["name"], social="naver")
                     db.add(db_user)
                     db.commit()
                     db.refresh(db_user)
-                if User.token != access_token : 
-                    user_check.token = access_token
-                    db.commit()
-                    db.refresh(user_check)
             except :
                 RedirectResponse("http://localhost:8000/naver")
             user_res = db.query(User).filter((User.email == response_json["response"]["email"]) & (User.social == "naver")).first()
             return user_res
 
 
-# 네이버 회원탈퇴? 로그아웃? - token 삭제 - db에 있는 naver 소셜 로그인의 id 값
-@router.get('/{id}/logout')
-async def logout_naver(request : Request, id:int , db: Session=Depends(get_db)) : 
+# 클라이언트에서 토큰 받아서 로그아웃
+@router.get("/logout")
+async def token_logout_naver(request : Request) : 
+    token = request.headers["authorization"].split(" ")[1]
+
     naver_token_url = "https://nid.naver.com/oauth2.0/token"
     data = {
         "grant_type": "delete",
         "client_id": KEY["naver"]["id"],
         "client_secret": KEY["naver"]["pw"],
-        "access_token": db.query(User).filter((User.id == id) & (User.social == "naver")).first().token,
+        "access_token": token,
         "service_provider": "NAVER"
     }
     headers = {

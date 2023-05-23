@@ -7,6 +7,7 @@ from models import User
 import httpx
 import os
 import json
+import requests
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 SECRET_FILE = os.path.join(BASE_DIR, '../../secrets.json')
@@ -47,6 +48,7 @@ async def callback_google(request: Request, code: str, state: str, db : Session 
         if response.status_code == 200:
             response_json = response.json()
             access_token = response_json["access_token"]
+
             headers = {
                 "Authorization": f"Bearer {access_token}",
             }
@@ -58,17 +60,34 @@ async def callback_google(request: Request, code: str, state: str, db : Session 
                 try:
                     duplicate_check = db.query(User).filter((User.email == response_json["email"]) & (User.social == "google")).first()
                     if not duplicate_check : 
-                        db_user = User(email=response_json["email"], password="", name=response_json["name"], social="google", token="", profile_image=response_json["picture"])
+                        db_user = User(email=response_json["email"], password="", name=response_json["name"], social="google", profile_image=response_json["picture"])
                         db.add(db_user)
                         db.commit()
                         db.refresh(db_user)
                 except:
                     RedirectResponse("http://localhost:8000/google")
-                return response_json
+                user_res = db.query(User).filter((User.email == response_json["email"]) & (User.social == "google")).first()
+                return user_res
             else:
                 return {"error": "failed to get user info"}
         else:
             return {"error": "failed to get access token"}
         
 
-# 구글 로긍아웃 구현 필요 
+# 구글 로그아웃 - 클라이언트에서 token 받아서 처리
+@router.get("/logout")
+async def token_logout_google(request : Request) : 
+    token = request.headers["authorization"].split(" ")[1]
+
+    google_token_url = "https://oauth2.googleapis.com/revoke"
+    data = {
+        "token": token
+    }
+    headers = {
+        "Content-Type": "application/x-www-form-urlencoded",
+    }
+
+    response = requests.post(google_token_url, data=data, headers=headers)
+
+    if not response.json() :
+        return  RedirectResponse("http://localhost:8000/google")
