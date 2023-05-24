@@ -27,6 +27,7 @@ class User(Base) :
     info = Column(String(100), nullable=True)
     notes = Column(Text, nullable=True)
     schedules = Column(Text, nullable=True)
+    test = Column(Integer, nullable=False)
 
 
 Base.metadata.create_all(bind=engine)
