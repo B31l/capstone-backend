@@ -7,7 +7,7 @@ from fastapi.responses import HTMLResponse
 from starlette.middleware.cors import CORSMiddleware
 from api import user_router, note_router
 from api.auth import kakao, naver, google
-from services import UserService
+from services import UserService, NoteService
 from datetime import datetime
 import json
 
@@ -34,6 +34,7 @@ app.include_router(user_router.router)
 app.include_router(note_router.router)
 app.include_router(google.router)
 app.include_router(UserService.router)
+app.include_router(NoteService.router)
 
 
 html = """

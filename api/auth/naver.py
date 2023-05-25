@@ -8,6 +8,11 @@ import requests
 import httpx
 import os
 import json
+import shortuuid
+
+def generate_uid(length):
+    uid = shortuuid.ShortUUID().random(length=length)
+    return uid
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 SECRET_FILE = os.path.join(BASE_DIR, '../../secrets.json')
@@ -65,7 +70,7 @@ async def callback_naver(request: Request, code: str, state: str, db: Session=De
             try :
                 user_check = db.query(User).filter((User.email == response_json["response"]["email"]) & (User.social == "naver")).first()
                 if not user_check : 
-                    db_user = User(email=response_json["response"]["email"], password="", name=response_json["response"]["name"], social="naver")
+                    db_user = User(uid=generate_uid(10) , email=response_json["response"]["email"], social="naver", name=response_json["response"]["name"],info="",notes="", schedules="" )
                     db.add(db_user)
                     db.commit()
                     db.refresh(db_user)

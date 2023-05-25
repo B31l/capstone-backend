@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer, Text, DateTime
+from sqlalchemy import Column, String, Integer, Text, DateTime, JSON
 from sqlalchemy.ext.declarative import declarative_base
 from database import engine
 Base = declarative_base()
@@ -7,7 +7,7 @@ Base = declarative_base()
 class Note(Base) :
     __tablename__ = "note"
 
-    id = Column(Integer, nullable=False, primary_key=True)
+    id = Column(Integer, nullable=False, primary_key=True, autoincrement=True)
     title = Column(String(45), nullable=False)
     body = Column(Text, nullable=False)
     tags = Column(String(100), nullable=True)
@@ -20,14 +20,13 @@ class User(Base) :
     __tablename__ = "user"
 
     id = Column(Integer, nullable=False, primary_key=True, autoincrement=True)
-    uid = Column(String(12), nullable=False)
+    uid = Column(Text, nullable=False)
     email = Column(String(100), nullable=False)
     social = Column(String(10), nullable=True)
     name = Column(String(100),nullable=True)
     info = Column(String(100), nullable=True)
-    notes = Column(Text, nullable=True)
+    notes = Column(JSON, nullable=True)
     schedules = Column(Text, nullable=True)
-    test = Column(Integer, nullable=False)
 
 
 Base.metadata.create_all(bind=engine)

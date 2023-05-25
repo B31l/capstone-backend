@@ -9,11 +9,6 @@ ASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 router = APIRouter(prefix="/users")
 
-# 특정 사용자 db 조회
-@router.get("/{id}")
-async def specUsers(id:int, db : Session = Depends(get_db)) : 
-    user =  db.query(User).filter(User.id == id).first()
-    return user
 
 # 전체 사용자 db 조회
 @router.get("/")
@@ -21,16 +16,20 @@ async def checkUsers(db : Session = Depends(get_db)) :
     user =  db.query(User).all()
     return user
 
-# 수정 - 이름 or 프로필이미지 
+# 수정 - 이름 or 상태메시지
 @router.post("/edit/{id}")
 async def editUser(id : int, editUser : user_schema.User, db : Session = Depends(get_db)) :
     user =  db.query(User).filter(User.id == id).first()
     if editUser.name : 
         user.name = editUser.name
-    if editUser.profile_image :
-        user.profile_image = editUser.profile_image
+    if editUser.info :
+        user.info = editUser.info
     db.commit()
     db.refresh(user)
     return user
 
+@router.get("/{uid}")
+async def specUsers(uid:str, db : Session = Depends(get_db)) : 
+    user =  db.query(User).filter(User.uid == uid).first()
+    return user
 

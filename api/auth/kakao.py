@@ -7,6 +7,11 @@ from models import User
 import httpx
 import os
 import json
+import shortuuid
+
+def generate_uid(length):
+    uid = shortuuid.ShortUUID().random(length=length)
+    return uid
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 SECRET_FILE = os.path.join(BASE_DIR, '../../secrets.json')
@@ -53,7 +58,7 @@ async def callback_kakao(request: Request, code: str, db: Session=Depends(get_db
             try :
                 user_check = db.query(User).filter((User.email == response_json["kakao_account"]["email"]) & (User.social == "kakao")).first()
                 if not user_check : 
-                    db_user = User(email=response_json["kakao_account"]["email"], password="", name=response_json["properties"]["nickname"], social="kakao")
+                    db_user = User(uid=generate_uid(10), email=response_json["kakao_account"]["email"], social="kakao",  name=response_json["properties"]["nickname"],info="",notes="", schedules="")
                     db.add(db_user)
                     db.commit()
                     db.refresh(db_user)

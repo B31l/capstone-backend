@@ -7,7 +7,12 @@ from models import User
 import httpx
 import os
 import json
+import shortuuid
 import requests
+
+def generate_uid(length):
+    uid = shortuuid.ShortUUID().random(length=length)
+    return uid
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 SECRET_FILE = os.path.join(BASE_DIR, '../../secrets.json')
@@ -60,7 +65,7 @@ async def callback_google(request: Request, code: str, state: str, db : Session 
                 try:
                     duplicate_check = db.query(User).filter((User.email == response_json["email"]) & (User.social == "google")).first()
                     if not duplicate_check : 
-                        db_user = User(email=response_json["email"], password="", name=response_json["name"], social="google", profile_image=response_json["picture"])
+                        db_user = User(uid=generate_uid(10), email=response_json["email"], social="google", name=response_json["name"], info="",notes="", schedules="")
                         db.add(db_user)
                         db.commit()
                         db.refresh(db_user)
@@ -74,7 +79,7 @@ async def callback_google(request: Request, code: str, state: str, db : Session 
             return {"error": "failed to get access token"}
         
 
-# 구글 로그아웃 - 클라이언트에서 token 받아서 처리
+# 구글 로그아웃 - 클라이언트에서 token 받아서 처리 (실행 확인 : curl -X GET http://localhost:8000/google/logout -H "Authorization: Bearer {your_token_value}")
 @router.get("/logout")
 async def token_logout_google(request : Request) : 
     token = request.headers["authorization"].split(" ")[1]
