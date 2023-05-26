@@ -5,6 +5,7 @@ from database import get_db
 from models import Note, User
 from schemas import note_schema, user_schema
 from datetime import datetime
+import json
 
 ASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -15,8 +16,6 @@ router = APIRouter(prefix="/notes")
 async def specUsers(id:int, db : Session = Depends(get_db)) : 
     NotebyID =  db.query(Note).filter(Note.writer_id == id).all()
     return NotebyID
-
-
 
 # 노트 생성
 @router.post("/")
@@ -32,7 +31,6 @@ async def uploadNote(note:note_schema.Note, user:user_schema.User, writer_id:int
     db.commit()
     db.refresh(noteUser)
     return noteUser
-
 
 # 노트 수정 - title 및 body, 최근 업데이트 시간
 @router.post("/{noteId}")
