@@ -25,7 +25,7 @@ class User(Base) :
     social = Column(String(10), nullable=True)
     name = Column(String(100),nullable=True)
     info = Column(String(100), nullable=True)
-    notes = Column(JSON, nullable=True)
+    notes = Column(String(100), nullable=True)
     schedules = Column(Text, nullable=True)
 
 
