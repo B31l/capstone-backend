@@ -9,8 +9,8 @@ import os
 import json
 import shortuuid
 
-def generate_uid(length):
-    uid = shortuuid.ShortUUID().random(length=length)
+def generate_uid(length=10):
+    uid = '@' + shortuuid.ShortUUID().random(length=length)
     return uid
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))

@@ -12,13 +12,13 @@ router = APIRouter(prefix="/users")
 
 # 전체 사용자 db 조회
 @router.get("/")
-async def checkUsers(db : Session = Depends(get_db)) : 
+async def checkUsers(db: Session = Depends(get_db)) :
     user =  db.query(User).all()
     return user
 
 # 수정 - 이름 or 상태메시지
 @router.post("/edit/{id}")
-async def editUser(id : int, editUser : user_schema.User, db : Session = Depends(get_db)) :
+async def editUser(id: int, editUser: user_schema.User, db: Session = Depends(get_db)) :
     user =  db.query(User).filter(User.id == id).first()
     if editUser.name : 
         user.name = editUser.name
@@ -32,4 +32,7 @@ async def editUser(id : int, editUser : user_schema.User, db : Session = Depends
 async def specUsers(uid:str, db : Session = Depends(get_db)) : 
     user =  db.query(User).filter(User.uid == uid).first()
     return user
+
+# @router.delete("/{uid}")
+# async def kakao
 

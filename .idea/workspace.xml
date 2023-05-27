@@ -6,13 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="b77c92b6-5ba3-4919-8b88-52568313a302" name="변경" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/README" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/env.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/script.py.mako" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/versions/82230b7f0817_example.py" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/versions/82230b7f0817_example.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/versions/a6f36134f54e_.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/schemas/note_schema.py" beforeDir="false" afterPath="$PROJECT_DIR$/schemas/note_schema.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/auth/kakao.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/auth/kakao.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/services/UserService.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/UserService.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,14 +28,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "D:/Workspace/capstone/schemas",
-    "settings.editor.selected.configurable": "preferences.editor"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Workspace/capstone/schemas&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.editor&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Workspace\capstone\schemas" />
