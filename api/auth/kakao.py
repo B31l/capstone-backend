@@ -58,7 +58,15 @@ async def callback_kakao(request: Request, code: str, db: Session=Depends(get_db
             try :
                 user_check = db.query(User).filter((User.email == response_json["kakao_account"]["email"]) & (User.social == "kakao")).first()
                 if not user_check : 
-                    db_user = User(uid=generate_uid(10), email=response_json["kakao_account"]["email"], social="kakao",  name=response_json["properties"]["nickname"],info="",notes="", schedules="")
+                    db_user = User(
+                        uid=generate_uid(10),
+                        email=response_json["kakao_account"]["email"],
+                        social="kakao",
+                        name=response_json["properties"]["nickname"],
+                        info="",
+                        notes="{}",
+                        schedules=""
+                    )
                     db.add(db_user)
                     db.commit()
                     db.refresh(db_user)

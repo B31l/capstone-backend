@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 import os
 from sqlalchemy.orm import Session
-from sqlalchemy import select, text, column
+from sqlalchemy import select, text, column, and_
 from database import get_db, engine
 from models import User, Note
 from schemas import user_schema
@@ -49,11 +49,16 @@ async def specUsers(id:str, db : Session = Depends(get_db)) :
 
 # uid와 id에 따른 사용자 조회
 @router.get("/useruid/{uid}")
-async def specUsers(uid:int, db : Session = Depends(get_db)) : 
-    UserbyUid =  db.query(User).filter(User.uid == uid).all()
+async def specUsers(uid:str, db : Session = Depends(get_db)) :
+    UserbyUid =  db.query(User).filter(User.uid == uid).first()
     return UserbyUid
 
 @router.get("/userid/{uid}")
 async def specUsers(id:int, db : Session = Depends(get_db)) : 
-    Userbyid =  db.query(User).filter(User.id == id).all()
+    Userbyid =  db.query(User).filter(User.id == id).first()
     return Userbyid
+
+@router.get("/ube/{email}")
+async def ube(email: str, social: str, db: Session = Depends(get_db)):
+    User_by_email = db.query(User).filter(and_(User.email == email, User.social == social)).first()
+    return User_by_email
