@@ -55,23 +55,24 @@ async def specUsers(id:str, db : Session = Depends(get_db)) :
     note_list = []
     todo_list = []
     user =  db.query(User).filter(User.id == id).first()
-    try : 
-        if (user.__getattribute__("notes")) : 
-            for noteId in ((user.__getattribute__("notes").rstrip("|")).split("|")) :
-                note = db.query(Note).filter(Note.id == noteId).first()
-                del note.__dict__["_sa_instance_state"]
-                note_list.append(jsonable_encoder(note.__dict__))
-        elif (user.__getattribute__("schedules")):
-            for todoid in ((user.__getattribute__("schedules").rstrip("|")).split("|")) :
-                todos = db.query(Todo).filter(Todo.id == todoid).first()
-                todo_list.append(jsonable_encoder(todos.__dict__))
-            todo_res = combine_json(todo_list, "date")
 
-        users_data = {"name" : user.name, "uid" : user.uid,  "email" : user.email, "social" : user.social, "id" : user.id, 
-                      "info" : user.info, "schedules" : todo_res, "notes": jsonable_encoder(note_list)}
-        res = jsonable_encoder(users_data)
-    except : 
-        res = user
+    if (user.__getattribute__("notes") != "") : 
+        for noteId in ((user.__getattribute__("notes").rstrip("|")).split("|")) :
+            note = db.query(Note).filter(Note.id == noteId).first()
+            del note.__dict__["_sa_instance_state"]
+            note_list.append(jsonable_encoder(note.__dict__))
+        user.notes = jsonable_encoder(note_list)
+    if (user.__getattribute__("schedules") != ""):
+        for todoid in ((user.__getattribute__("schedules").rstrip("|")).split("|")) :
+            todos = db.query(Todo).filter(Todo.id == todoid).first()
+            todo_list.append(jsonable_encoder(todos.__dict__))
+        todo_res = combine_json(todo_list, "date")
+        user.schedules = todo_res
+
+    users_data = {"name" : user.name, "uid" : user.uid,  "email" : user.email, "social" : user.social, "id" : user.id, 
+                    "info" : user.info, "schedules" : user.schedules, "notes": user.notes}
+    res = jsonable_encoder(users_data)
+
     return res
 
 # @router.delete("/{uid}")
