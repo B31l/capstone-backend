@@ -35,12 +35,15 @@ async def editUser(id: int, editUser: user_schema.User, db: Session = Depends(ge
 async def specUsers(id:str, db : Session = Depends(get_db)) : 
     note_list = []
     user =  db.query(User).filter(User.id == id).first()
-    for noteId in ((user.__getattribute__("notes").rstrip("|")).split("|")) :
-        note = db.query(Note).filter(Note.id == noteId).first()
-        del note.__dict__["_sa_instance_state"]
-        note_list.append(jsonable_encoder(note.__dict__))
-    users_data = {"name" : user.name, "uid" : user.uid,  "email" : user.email, "social" : user.social, "id" : user.id, "info" : user.info, "schedules" : user.schedules, "notes": jsonable_encoder(note_list)}
-    res = jsonable_encoder(users_data)
+    try : 
+        for noteId in ((user.__getattribute__("notes").rstrip("|")).split("|")) :
+            note = db.query(Note).filter(Note.id == noteId).first()
+            del note.__dict__["_sa_instance_state"]
+            note_list.append(jsonable_encoder(note.__dict__))
+        users_data = {"name" : user.name, "uid" : user.uid,  "email" : user.email, "social" : user.social, "id" : user.id, "info" : user.info, "schedules" : user.schedules, "notes": jsonable_encoder(note_list)}
+        res = jsonable_encoder(users_data)
+    except : 
+        res = user
     return res
 
 # @router.delete("/{uid}")
