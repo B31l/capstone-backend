@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer, Text, DateTime, JSON
+from sqlalchemy import Column, String, Integer, Text, DateTime, JSON, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from database import engine
 Base = declarative_base()
@@ -29,4 +29,16 @@ class User(Base) :
     schedules = Column(Text, nullable=True)
 
 
+# TO-DO-List
+class Todo(Base) :
+    __tablename__ = "todo"
+
+    id = Column(Integer, nullable=False, primary_key=True, autoincrement=True)
+    date = Column(String(100), nullable=False)
+    task = Column(String(100), nullable=False)
+    completed = Column(Boolean, default=False)
+    writer_id = Column(Integer, nullable=False)
+
+
 Base.metadata.create_all(bind=engine)
+
