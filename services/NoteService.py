@@ -6,10 +6,15 @@ from models import Note, User
 from schemas import note_schema, user_schema
 from datetime import datetime
 import json
+from fastapi.responses import RedirectResponse
 
 ASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 router = APIRouter(prefix="/notes")
+
+
+
+
 
 # 특정 사용자 노트 db 조회
 @router.get("/{id}")
@@ -46,3 +51,33 @@ async def editNote(note:note_schema.Note, noteId:int, db:Session=Depends(get_db)
     db.refresh(NotebyNoteID)
     return NotebyNoteID
 
+# 노트 삭제
+@router.delete("/delete/{noteId}")
+async def deleteNote(note:note_schema.Note, noteId:int, db:Session=Depends(get_db)) :
+    resultNote = []
+    NotebyNoteID = db.query(Note).filter(Note.id == noteId).first()
+    id = NotebyNoteID.__getattribute__("writer_id")
+    UserbyNote = db.query(User).filter(User.id == id).first()
+
+
+    for notesId in ((UserbyNote.__getattribute__("notes").rstrip("|")).split("|")) :
+        if int(notesId) != int(noteId) : 
+            resultNote.append(notesId)
+        else :
+            pass
+
+    if NotebyNoteID : 
+        db.delete(NotebyNoteID)
+        db.commit()
+        UserbyNote.notes = ""
+        db.commit()
+        db.refresh(UserbyNote)
+
+
+    for notesID in resultNote : 
+        db.query(User).filter(User.id == id).first().notes +=  str(notesID) + "|"
+    db.commit()
+    db.refresh(UserbyNote)
+    
+
+    return "{Delete : Success}"
