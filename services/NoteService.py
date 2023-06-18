@@ -14,13 +14,12 @@ router = APIRouter(prefix="/notes")
 
 
 
-
-
 # 특정 사용자 노트 db 조회
 @router.get("/{id}")
 async def specUsers(id:int, db : Session = Depends(get_db)) : 
     NotebyID =  db.query(Note).filter(Note.writer_id == id).all()
     return NotebyID
+
 
 # 노트 생성
 @router.post("/")
@@ -37,6 +36,7 @@ async def uploadNote(note:note_schema.Note, user:user_schema.User, writer_id:int
     db.refresh(noteUser)
     return noteUser
 
+
 # 노트 수정 - title 및 body, 최근 업데이트 시간
 @router.post("/{noteId}")
 async def editNote(note:note_schema.Note, noteId:int, db:Session=Depends(get_db)) :
@@ -51,6 +51,7 @@ async def editNote(note:note_schema.Note, noteId:int, db:Session=Depends(get_db)
     db.refresh(NotebyNoteID)
     return NotebyNoteID
 
+
 # 노트 삭제
 @router.delete("/delete/{noteId}")
 async def deleteNote(note:note_schema.Note, noteId:int, db:Session=Depends(get_db)) :
@@ -58,7 +59,6 @@ async def deleteNote(note:note_schema.Note, noteId:int, db:Session=Depends(get_d
     NotebyNoteID = db.query(Note).filter(Note.id == noteId).first()
     id = NotebyNoteID.__getattribute__("writer_id")
     UserbyNote = db.query(User).filter(User.id == id).first()
-
 
     for notesId in ((UserbyNote.__getattribute__("notes").rstrip("|")).split("|")) :
         if int(notesId) != int(noteId) : 
@@ -72,7 +72,6 @@ async def deleteNote(note:note_schema.Note, noteId:int, db:Session=Depends(get_d
         UserbyNote.notes = ""
         db.commit()
         db.refresh(UserbyNote)
-
 
     for notesID in resultNote : 
         db.query(User).filter(User.id == id).first().notes +=  str(notesID) + "|"

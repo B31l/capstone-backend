@@ -27,6 +27,7 @@ class User(Base) :
     info = Column(String(100), nullable=True)
     notes = Column(String(100), nullable=True)
     schedules = Column(Text, nullable=True)
+    weekly = Column(Text, nullable=True)
 
 
 # TO-DO-List
@@ -37,6 +38,20 @@ class Todo(Base) :
     date = Column(String(100), nullable=False)
     task = Column(String(100), nullable=False)
     completed = Column(Boolean, default=False)
+    writer_id = Column(Integer, nullable=False)
+
+
+
+# Weekly Schedule
+class Weekly(Base) :
+    __tablename__ = "weekly"
+
+    id = Column(Integer, nullable=False, primary_key=True, autoincrement=True)
+    title = Column(String(100), nullable=False)
+    start_date = Column(DateTime, default=False)
+    end_date = Column(DateTime, default=False)
+    location = Column(Text, nullable=True)
+    notes = Column(Text, nullable=True)
     writer_id = Column(Integer, nullable=False)
 
 

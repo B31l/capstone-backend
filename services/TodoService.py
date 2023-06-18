@@ -52,6 +52,7 @@ async def editTodo(TodoId:int, todo:todo_schema.Todo, db:Session = Depends(get_d
     response = RedirectResponse(url=redirect_url, status_code=302)
     return response
 
+
 # 삭제
 @router.delete("/delete/{TodoId}")
 async def deleteTodo(TodoId:int, todo:todo_schema.Todo, db:Session = Depends(get_db)) :
@@ -65,7 +66,6 @@ async def deleteTodo(TodoId:int, todo:todo_schema.Todo, db:Session = Depends(get
             resultTodo.append(todoid)
         else :
             pass
-    
 
     if TodobyID : 
         db.delete(TodobyID)
@@ -74,13 +74,13 @@ async def deleteTodo(TodoId:int, todo:todo_schema.Todo, db:Session = Depends(get
         db.commit()
         db.refresh(UserbyTodo)
 
-
     for todosId in resultTodo : 
         db.query(User).filter(User.id == id).first().schedules +=  str(todosId) + "|"
     db.commit()
     db.refresh(UserbyTodo)
 
     return "{Delete : Success}"
+
 
 # completed 
 @router.post("/check/{todoId}")

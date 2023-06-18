@@ -3,8 +3,8 @@ import os
 from sqlalchemy.orm import Session
 from sqlalchemy import select, text, column, and_
 from database import get_db, engine
-from models import User, Note, Todo
-from schemas import user_schema, todo_schema
+from models import User, Note, Todo, Weekly
+from schemas import user_schema, todo_schema, weekly_schema
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import RedirectResponse
 import datetime
@@ -54,6 +54,7 @@ async def editUser(id: int, editUser: user_schema.User, db: Session = Depends(ge
 async def specUsers(id:str, db : Session = Depends(get_db)) : 
     note_list = []
     todo_list = []
+    weekly_list = []
     user =  db.query(User).filter(User.id == id).first()
 
     if (user.__getattribute__("notes") != "") : 
@@ -68,9 +69,15 @@ async def specUsers(id:str, db : Session = Depends(get_db)) :
             todo_list.append(jsonable_encoder(todos.__dict__))
         todo_res = combine_json(todo_list, "date")
         user.schedules = todo_res
+    if (user.__getattribute__("weekly") != ""):
+        for scheduleid in ((user.__getattribute__("weekly").rstrip("|")).split("|")) :
+            schedules = db.query(Weekly).filter(Weekly.id == scheduleid).first()
+            weekly_list.append(jsonable_encoder(schedules.__dict__))
+        # weekly_res = combine_json(weekly_list, "date")
+        user.weekly = jsonable_encoder(weekly_list)
 
     users_data = {"name" : user.name, "uid" : user.uid,  "email" : user.email, "social" : user.social, "id" : user.id, 
-                    "info" : user.info, "schedules" : user.schedules, "notes": user.notes}
+                    "info" : user.info, "schedules" : user.schedules, "notes": user.notes, "weekly" : user.weekly}
     res = jsonable_encoder(users_data)
 
     return res
