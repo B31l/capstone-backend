@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b77c92b6-5ba3-4919-8b88-52568313a302" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/api/auth/kakao.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/auth/kakao.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/services/UserService.py" beforeDir="false" afterPath="$PROJECT_DIR$/services/UserService.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
