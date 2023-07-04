@@ -11,11 +11,12 @@ class User(BaseModel) :
     notes : str | None = None
     schedules : str | None = None
     weekly : str | None = None 
+    chats : str | None = None
+
     # token : str | None = None
     # goals : str | None = None
     # groups : str | None = None
     # notes : str | None = None
-    # chats : str | None = None
 
     class Config:
         orm_mode = True

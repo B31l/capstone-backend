@@ -66,7 +66,8 @@ async def callback_kakao(request: Request, code: str, db: Session=Depends(get_db
                         info="",
                         notes="{}",
                         schedules="",
-                        weekly=""
+                        weekly="",
+                        chats=""
                     )
                     db.add(db_user)
                     db.commit()

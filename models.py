@@ -28,6 +28,7 @@ class User(Base) :
     notes = Column(String(100), nullable=True)
     schedules = Column(Text, nullable=True)
     weekly = Column(Text, nullable=True)
+    chats = Column(Text, nullable=True)
 
 
 # TO-DO-List
@@ -53,6 +54,29 @@ class Weekly(Base) :
     location = Column(Text, nullable=True)
     notes = Column(Text, nullable=True)
     writer_id = Column(Integer, nullable=False)
+
+
+# 채팅 DB
+class Chat(Base) :
+    __tablename__ = "chat"
+
+    id = Column(Integer, nullable=False, primary_key=True, autoincrement=True)
+    title = Column(String(100), nullable=False)
+    generate_id = Column(Integer, nullable=False)
+    participate_id = Column(Text, nullable=True)
+    info = Column(Text, nullable=True)
+    messages = Column(Text, nullable=True)
+
+
+# 메시지 DB
+class Message(Base) :
+    __tablename__ = "message"
+
+    id = Column(Integer, nullable=False, primary_key=True, autoincrement=True)
+    chat_id = Column(Integer, nullable=False)
+    writer_id = Column(Integer, nullable=False)
+    body = Column(Text, nullable=True)  
+    time = Column(DateTime, nullable=False) 
 
 
 Base.metadata.create_all(bind=engine)
