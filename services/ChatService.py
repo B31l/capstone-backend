@@ -144,7 +144,42 @@ async def deleteGroup(chat:chat_schema.Chat, chatId:int, userId:int, db:Session=
     
     return res
 
-# 메시지 보내기 -> 메시지 DB 업데이트 및 조회
-# @router.post("/{chat_id}/message")
+# 참가자의 그룹 탈퇴 => 그룹 멤버 수정, 해당 참가자가의 그룹 수정 
+@router.post("{chat_id}/unregister")
+async def unregisterGroup(chat_id:int, user_id:int, db:Session=Depends(get_db)) : 
+    UserbyID = db.query(User).filter(User.id == user_id).first()
+    GroupbyID = db.query(Chat).filter(Chat.id == chat_id).first()
 
-# 참가자의 그룹 탈퇴
+    # 참가자 그룹 수정
+    resultChat = []
+    for chatsId in ((UserbyID.__getattribute__("chats").rstrip("|")).split("|")) :
+        if int(chatsId) != int(chat_id) : 
+            resultChat.append(chatsId)
+        else :
+            pass
+    UserbyID.chats = ""
+    db.commit()
+    db.refresh(UserbyID)
+    for chatsID in resultChat : 
+        db.query(User).filter(User.id == user_id).first().chats +=  str(chatsID) + "|"
+    db.commit()
+    db.refresh(UserbyID)
+
+    # 해당 그룹 멤버 수정
+    resultMember = []
+    for memId in ((GroupbyID.__getattribute__("participate_id").rstrip("|")).split("|")) :
+        if int(memId) != int(user_id) : 
+            resultMember.append(memId)
+        else :
+            pass
+    GroupbyID.participate_id = ""
+    db.commit()
+    db.refresh(GroupbyID)
+    for memsId in resultMember : 
+        db.query(Chat).filter(Chat.id == chat_id).first().participate_id +=  str(memsId) + "|"
+    db.commit()
+    db.refresh(GroupbyID)
+
+    redirect_url = f"/chats/mychat/{user_id}"
+    response = RedirectResponse(url=redirect_url, status_code=302)
+    return response
