@@ -28,7 +28,8 @@ class User(Base) :
     notes = Column(String(100), nullable=True)
     schedules = Column(Text, nullable=True)
     weekly = Column(Text, nullable=True)
-    chats = Column(Text, nullable=True)
+    groups = Column(Text, nullable=True)
+    websocket = Column(Text, nullable=True)
 
 
 # TO-DO-List
@@ -57,11 +58,11 @@ class Weekly(Base) :
 
 
 # 채팅 DB
-class Chat(Base) :
-    __tablename__ = "chat"
+class Group(Base) :
+    __tablename__ = "group"
 
     id = Column(Integer, nullable=False, primary_key=True, autoincrement=True)
-    title = Column(String(100), nullable=False)
+    title = Column(String(100), nullable=True)
     generate_id = Column(Integer, nullable=False)
     participate_id = Column(Text, nullable=True)
     info = Column(Text, nullable=True)

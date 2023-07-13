@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-class Chat(BaseModel) :
+class Group(BaseModel) :
     id : int
     title: str
     generate_id: int

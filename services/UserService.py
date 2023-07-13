@@ -77,7 +77,7 @@ async def specUsers(id:str, db : Session = Depends(get_db)) :
         user.weekly = jsonable_encoder(weekly_list)
 
     users_data = {"name" : user.name, "uid" : user.uid,  "email" : user.email, "social" : user.social, "id" : user.id, 
-                    "info" : user.info, "schedules" : user.schedules, "notes": user.notes, "weekly" : user.weekly, "chats" : user.chats}
+                    "info" : user.info, "schedules" : user.schedules, "notes": user.notes, "weekly" : user.weekly, "groups" : user.groups, "websocket" : user.websockets}
     res = jsonable_encoder(users_data)
 
     return res

@@ -65,7 +65,7 @@ async def callback_google(request: Request, code: str, state: str, db : Session 
                 try:
                     duplicate_check = db.query(User).filter((User.email == response_json["email"]) & (User.social == "google")).first()
                     if not duplicate_check : 
-                        db_user = User(uid=generate_uid(10), email=response_json["email"], social="google", name=response_json["name"], info="",notes="", schedules="", weekly="", chats="")
+                        db_user = User(uid=generate_uid(10), email=response_json["email"], social="google", name=response_json["name"], info="",notes="", schedules="", weekly="", groups="", websocket="")
                         db.add(db_user)
                         db.commit()
                         db.refresh(db_user)

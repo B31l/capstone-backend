@@ -11,7 +11,8 @@ class User(BaseModel) :
     notes : str | None = None
     schedules : str | None = None
     weekly : str | None = None 
-    chats : str | None = None
+    groups : str | None = None
+    websocket : str | None = None
 
     # token : str | None = None
     # goals : str | None = None

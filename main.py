@@ -7,7 +7,7 @@ from fastapi.responses import HTMLResponse
 from starlette.middleware.cors import CORSMiddleware
 from api import user_router, note_router
 from api.auth import kakao, naver, google
-from services import UserService, NoteService, TodoService, WeeklyService, ChatService
+from services import GroupService, UserService, NoteService, TodoService, WeeklyService
 from datetime import datetime
 import json
 
@@ -37,7 +37,7 @@ app.include_router(UserService.router)
 app.include_router(NoteService.router)
 app.include_router(TodoService.router)
 app.include_router(WeeklyService.router)
-app.include_router(ChatService.router)
+app.include_router(GroupService.router)
 
 
 html = """
@@ -124,3 +124,4 @@ async def websocket_endpoint(websocket: WebSocket, client_id: int):
 # conn = pymysql.connect(host='127.0.0.1', user='--', password='--', db='--', charset='utf8')
 # cursor = conn.cursor(cursors.DictCursor)
 # Base.metadata.create_all(bind=engine)
+
